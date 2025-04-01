@@ -1,0 +1,11 @@
+y(X, Y) :- A is asin(2 * X),
+          (A =:= 0 -> Y = 'N0';
+           Y is (X + 1) / A).
+
+table(Xk, Xk, _) :- calculate_function(Xk), !.
+table(X, Xk, H) :- calculate_function(X), X1 is X + H, table(X1, Xk, H).
+
+calculate_function(X) :- y(X, Y), format('y(~f) = ~w~n', [X, Y]), !.
+
+tests :- table(-1.0, -0.1, 0.1),
+        table(-0.5, 0.5, 0.1).

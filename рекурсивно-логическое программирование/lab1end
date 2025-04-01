@@ -1,0 +1,28 @@
+log10(X, R) :- R is log(X) / log(10).
+
+f1(X, R) :- Res is X * X - 4,
+           (Res =:= 0 -> R = 'N0'; R is X / Res).
+
+f2(X, R) :- Pi is 3.14,
+           (X =:= 1 -> R = 'N0';
+            T is tan(Pi / X),
+           (T =:= 0 -> R = 'N0'; R is 1 / T)).
+
+f3(X, R) :- (X < 0 -> R = 'N0';
+             S is sqrt(X),
+             Arg is X + 7 * S,
+            (Arg =< 0 -> R = 'N0'; log10(Arg, R))).
+
+y(X, R) :- (X =< -1
+            -> f1(X, R), !; X > 0.5
+            -> f2(X, R), !; f3(X, R)).
+
+calculate_function(X) :- y(X, Y), format('y(~f) = ~w~n', [X, Y]).
+
+tests :-
+    calculate_function(-4),
+    calculate_function(-2),
+    calculate_function(0),
+    calculate_function(0.1),
+    calculate_function(1),
+    calculate_function(2).
